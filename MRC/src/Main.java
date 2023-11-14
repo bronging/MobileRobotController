@@ -1,4 +1,3 @@
-asdfasdfa???
 public class Main {
 
 }
