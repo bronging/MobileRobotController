@@ -6,6 +6,7 @@ import com.nsg.addon.rescue.modeling.Map;
 import com.nsg.addon.rescue.modeling.RealMap;
 import com.nsg.addon.rescue.control.RobotController;
 import com.nsg.addon.voice.manager.VoiceRecMananger;
+import com.nsg.addon.gui.event.EventManager;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -18,6 +19,7 @@ public class ADD_ON {
 	private Map modelingMap; 
 	private RobotController robotController;
 	private VoiceRecMananger voiceRecManager; 
+	private EventManager eventManager; 
 	private ArrayList<Point> path;  
 	private int numOfSearch;       // 전체 탐색 지점 개수 
 	private int visited;           // 방문한 탐색 지점의 개수 
@@ -31,6 +33,7 @@ public class ADD_ON {
 		modelingMap = new Map();
 		robotController = new RobotController();
 		voiceRecManager = new VoiceRecMananger();
+		eventManager = new EventManager();
 		numOfSearch = 0;
 		visited = 0; 
 	}
@@ -66,6 +69,7 @@ public class ADD_ON {
 	 */
 	void updateRealMap(Point pos, Element elem) {
 		RealMap.getInstance().updateRealMapElem(pos, elem);
+		//eventManager.updateRealMap(pos, elem); // UI 업데이트 
 	}
 	
 	/**
@@ -77,6 +81,7 @@ public class ADD_ON {
 	 */
 	public void updateMap(Point pos, Element elem) {
 		modelingMap.updateMapElem(pos, elem);
+		//eventManager.updateModelingMap(pos, elem); // UI 업데이트 
 	}
 	
 	/**
@@ -88,8 +93,7 @@ public class ADD_ON {
 	public void updateSearchPos(Point pos) {
 		RealMap.getInstance().updateRealMapElem(pos, Element.SEARCHPOINT);
 		modelingMap.updateMapElem(pos, Element.SEARCHPOINT);
-		numOfSearch++;
-		
+		numOfSearch++;	
 	}
 	
 	/**
@@ -104,8 +108,13 @@ public class ADD_ON {
 			modelingMap.addVisited(target); // 탐색 완료 표시 
 			visited++;
 			
-							// 화면에 구조 한 거 표시 
-							// delay
+			//eventManager.rescueDone(target);   // 화면에 구조 한 거 표시 
+			
+			try {
+				Thread.sleep(1000); // delay 
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}		
 		}
 		return;
 	}
@@ -115,23 +124,24 @@ public class ADD_ON {
 	 * 경로를 따라 로봇을 제어한다. 
 	 */
 	public void search() {
-		while (!path.isEmpty()) {	
+		
+		while (!path.isEmpty()) { // 탐색 지점까지 모든 경로를 방문할 때까지 	
 			robotController.setNext(path.get(0)); //계산된 경로를 넘겨줌
 			
 			do {
 				
 				robotController.rotate(); 		  //올바른 방향으로 로봇 회전
 			
-				if(robotController.pretask()) {   //센서값 읽어서 지도 반영
-					
-					calcPath();
+				if(robotController.pretask()) {   //움직이기 전 센서값 읽어서 지도 반영
+					calcPath();					  //경로상 위험 지점 -> 경로 재계산 
 				}
 				else{
-					robotController.control();    //로봇 움직인다. 
+					robotController.control();    //로봇 움직인다
 				
 					// 움직인 결과 화면에 띄우고 
+					//eventManager.updateRobotPos(robotController.getRobotPos());
 				}
-			}while(!robotController.validation());
+			}while(!robotController.validation());//로봇이 올바르게 움직일 때까지 반복 
 		
 			path.remove(0);
 			
@@ -198,6 +208,7 @@ public class ADD_ON {
 	
 	}
 	
+	
 	/**
 	 * 목표 지점으로 가기 위한 방향을 계산한다. 
 	 * @param start
@@ -239,6 +250,7 @@ public class ADD_ON {
 		return prior;
 	}
 	
+	
 	/**
 	 * 
 	 * @return modeling map의 행 크기 
@@ -247,9 +259,10 @@ public class ADD_ON {
 		return modelingMap.getM();
 	}
 	
+	
 	/** 
 	 * 
-	 * @return modeling map의 열 크기 
+s	 * @return modeling map의 열 크기 
 	 */
 	public int getN() {
 		return modelingMap.getN();
@@ -268,12 +281,17 @@ public class ADD_ON {
 		return robotController.getRobotPos();
 	}
 	
-	public void  startVoiceRec() {
+	public void startVoiceRec() {
 		voiceRecManager.startRecording();
 	}
 	
 	public void stopVoiceRec() {
 		voiceRecManager.stopRecording();
+	}
+	
+	
+	public void voiceRst(Point pos, Element elem) {
+		//eventManager.showVoiceRst(pos, elem);
 	}
 	
  	public void printPath() {
