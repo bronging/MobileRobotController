@@ -63,4 +63,17 @@ public class RealMap{
 		else 
 			return Element.NONE;
 	}
+	
+	/**
+	 * 특정 좌표가 지도 범위 안에 있는지 여부 반환 
+	 * @param p
+	 * @return
+	 */
+	public boolean isInMap(Point p) {
+		return (p.x >= 0 && p.x < n) && (p.y >= 0 && p.y < m); 
+	}
+
+	public Element[][] getRealMap() {
+		return realmap;
+	}
 }

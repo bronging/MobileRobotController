@@ -28,14 +28,14 @@ public class VoiceRecEngine {
         languageCode = "korean";
     }
 
-    /*¹®Àå ÃßÃâ*/
+    /*ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½*/
     public void extractText(String audioFilePath) {
         Gson gson = new Gson();
         Map<String, Object> request = new HashMap<>();
         Map<String, String> argument = new HashMap<>();
         String audioContents = null;
 
-        // À½¼º ÆÄÀÏ ÀÐ¾î¿Í Base64·Î ÀÎÄÚµù
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ð¾ï¿½ï¿½ Base64ï¿½ï¿½ ï¿½ï¿½ï¿½Úµï¿½
         try {
             Path path = Paths.get(audioFilePath);
             byte[] audioBytes = Files.readAllBytes(path);
@@ -50,30 +50,30 @@ public class VoiceRecEngine {
         request.put("argument", argument);
 
         URL url;
-        Integer responseCode = null;  // ÀÀ´ä ÄÚµå
-        String responseBody = null;  // ÀÀ´ä º»¹®
+        Integer responseCode = null;  // ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
+        String responseBody = null;  // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
         HttpURLConnection con = null;
 
         try {
 
-            // API¿¡ HTTP POST ¿äÃ» »ý¼º, ÇÊ¿äÇÑ Çì´õ ¼³Á¤
+            // APIï¿½ï¿½ HTTP POST ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½, ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             url = new URL(openApiURL);
             con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("POST");
-            con.setDoOutput(true);  // ¼­¹ö·Î Ãâ·ÂÇÒÁö ¿©ºÎ ¼³Á¤
+            con.setDoOutput(true);  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             con.setRequestProperty("Authorization", accessKey);
 
             try (DataOutputStream wr = new DataOutputStream(con.getOutputStream())) {
-                wr.write(gson.toJson(request).getBytes("UTF-8"));  // ¿äÃ»¿¡ ´ã±ä µ¥ÀÌÅÍ¸¦ JSONÀ¸·Î ¹Ù²Ù°í, ÀÎÄÚµùÇÏ°í ¼­¹ö·Î Àü¼Û
-                wr.flush();  // Ãâ·Â ¹öÆÛ ºñ¿ì°í, µ¥ÀÌÅÍ Àü¼Û
-            }  // try-with-resources¸¦ »ç¿ëÇÏ¿© ÀÚµ¿À¸·Î close
+                //wr.write(gson.toJson(request).getBytes("UTF-8"));  // ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ JSONï¿½ï¿½ï¿½ï¿½ ï¿½Ù²Ù°ï¿½, ï¿½ï¿½ï¿½Úµï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                wr.flush();  // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            }  // try-with-resourcesï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ close
 
-            responseCode = con.getResponseCode();  // ¼­¹ö ÀÀ´ä ÄÚµå ex. 200, 404
+            responseCode = con.getResponseCode();  // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ ex. 200, 404
 
             try (InputStream is = con.getInputStream()) {
-                byte[] buffer = new byte[1024];  // °íÁ¤ Å©±âÀÇ ¹öÆÛ
+                byte[] buffer = new byte[1024];  // ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 int bytesRead;
                 StringBuilder responseStringBuilder = new StringBuilder();
 
@@ -82,9 +82,9 @@ public class VoiceRecEngine {
                 }
 
                 responseBody = responseStringBuilder.toString();
-            }  // try-with-resources¸¦ »ç¿ëÇÏ¿© ÀÚµ¿À¸·Î close
+            }  // try-with-resourcesï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ close
 
-            // °á°ú Ãâ·Â
+            // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
             System.out.println("[responseCode] " + responseCode);
             System.out.println("[responBody]");
             System.out.println(responseBody);
@@ -95,7 +95,7 @@ public class VoiceRecEngine {
             e.printStackTrace();
         } finally {
             if (con != null) {
-                con.disconnect();  // ¿¬°á Á¾·á
+                con.disconnect();  // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             }
         }
     }

@@ -13,7 +13,7 @@ public class EventManager implements ActionListener{
     private VoiceRecMananger voiceRecManager;
     
     public EventManager() {
-        // VoiceRecManager ÀÎ½ºÅÏ½º ÃÊ±âÈ­
+        // VoiceRecManager ï¿½Î½ï¿½ï¿½Ï½ï¿½ ï¿½Ê±ï¿½È­
         voiceRecManager = new VoiceRecMananger();
     }
     
@@ -22,17 +22,17 @@ public class EventManager implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         JButton button  = (JButton)e.getSource();
         if (isButtonPressed) {
-            // ¹öÆ°ÀÌ ÀÌ¹Ì ´­·ÁÀÖ´Â °æ¿ì
-            button.setText("À½¼º ³ìÀ½");
+            // ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
+            button.setText("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
             
-            // ³ìÀ½ ÁßÀÌ¸é ³ìÀ½À» Á¾·á
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             voiceRecManager.stopRecording();
         } 
         else {
-            // ¹öÆ°ÀÌ ´­¸®Áö ¾ÊÀº °æ¿ì
-            button.setText("³ìÀ½ Áß..");
+            // ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+            button.setText("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½..");
             
-            // ³ìÀ½À» ½ÃÀÛ
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             voiceRecManager.startRecording();
         }
         

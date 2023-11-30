@@ -57,12 +57,23 @@ public class MobileRobot implements RobotSimulInterface{
 	@Override
 	public void move(Movement move) {
 		if(move == Movement.FORWARD) {
-			/**TODO
-			 * 랜덤한 확률로 로봇 잘못 이동하는 케이스 구현  
+			
+			/**TODO 랜덤한 확률로 로봇 잘못 이동하는 케이스 구현  
 			 */
-			this.position = getForwardPos(); 
+			int r = (int)(Math.random() * 10); 
+
+			if(r > 1) 
+				this.position= getForwardPos();
+			
+			// 10번에 1번씩 2칸 이동
+			else if(r == 0) {
+				this.position = getForwardPos();
+				// 1칸 더 움직일 시, 지도 밖으로 나가면 더 움직이지 않게 함 
+				if(RealMap.getInstance().isInMap(getForwardPos()))
+					this.position = getForwardPos();	
+			}
+			// 10번에 1번씩 움직이지 않음 (r == 1) 
 		}
-		
 	}
 
 	@Override
@@ -84,8 +95,7 @@ public class MobileRobot implements RobotSimulInterface{
 	
 	/**
 	 * 
-	 * @return
-	 * 로봇의 현재 방향에 따른 전방 1칸 앞의 좌표 
+	 * @return 로봇의 현재 방향에 따른 전방 1칸 앞의 좌표 
 	 */
 	public Point getForwardPos() {
 		int c = position.x;
@@ -105,8 +115,7 @@ public class MobileRobot implements RobotSimulInterface{
 	
 	/**
 	 * 
-	 * @return
-	 * 로봇의 현재 방향에 따른 후방 1칸 의 좌표 
+	 * @return 로봇의 현재 방향에 따른 후방 1칸 의 좌표 
 	 */
 	public Point getBackwardPos() {
 		int c = position.x;
@@ -126,8 +135,7 @@ public class MobileRobot implements RobotSimulInterface{
 	
 	/**
 	 * 
-	 * @return
-	 * 로봇의 현재 방향에 따른 좌측 1칸 옆의 좌표 
+	 * @return 로봇의 현재 방향에 따른 좌측 1칸 옆의 좌표 
 	 */
 	public Point getLeftPos() {
 		int c = position.x;
@@ -147,8 +155,7 @@ public class MobileRobot implements RobotSimulInterface{
 	
 	/**
 	 * 
-	 * @return
-	 * 로봇의 현재 방향에 따른 우측 1칸 옆의 좌표 
+	 * @return 로봇의 현재 방향에 따른 우측 1칸 옆의 좌표 
 	 */
 	public Point getRightPos() {
 		int c = position.x;

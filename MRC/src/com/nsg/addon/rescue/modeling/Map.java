@@ -87,8 +87,8 @@ public class Map {
 	}
 	
 	/**
-	 * 로봇의 현재 방향에 따른 전방 1칸 앞의 좌표 
-	 * @return
+	 *  
+	 * @return 로봇의 현재 방향에 따른 전방 1칸 앞의 좌표
 	 */
 	public Point getForwardPos(Point position, Direction direction) {
 		int c = position.x;
@@ -107,8 +107,8 @@ public class Map {
 	}
 	
 	/**
-	 * 로봇의 현재 방향에 따른 후방 1칸 의 좌표
-	 * @return
+	 *
+	 * @return  로봇의 현재 방향에 따른 후방 1칸 의 좌표
 	 *  
 	 */
 	public Point getBackwardPos(Point position, Direction direction) {
@@ -128,8 +128,8 @@ public class Map {
 	}
 	
 	/**
-	 * 로봇의 현재 방향에 따른 좌측 1칸 옆의 좌표
-	 * @return
+	 * 
+	 * @return 로봇의 현재 방향에 따른 좌측 1칸 옆의 좌표
 	 *  
 	 */
 	public Point getLeftPos(Point position, Direction direction) {
@@ -149,8 +149,8 @@ public class Map {
 	}
 	
 	/**
-	 * 로봇의 현재 방향에 따른 우측 1칸 옆의 좌표 
-	 * @return
+	 * 
+	 * @return 로봇의 현재 방향에 따른 우측 1칸 옆의 좌표 
 	 * 
 	 */
 	public Point getRightPos(Point position, Direction direction) {
@@ -170,8 +170,8 @@ public class Map {
 	}
 
 	/**
-	 * map 객체 반환 
-	 * @return
+	 * 
+	 * @return map 객체 
 	 */
 	public Element[][] getMap() {
 		return map;

@@ -34,7 +34,7 @@ public class DesignUI extends JFrame {
         inputPanel.setLayout(null);
         JLabel mapLabel = new JLabel("Map");
         mapLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        mapLabel.setFont(new Font("¸¼Àº °íµñ Semilight", Font.PLAIN, 17));
+        mapLabel.setFont(new Font("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Semilight", Font.PLAIN, 17));
         mapLabel.setBounds(172, 9, 55, 15);
         inputPanel.add(mapLabel);
         rowField = new JTextField(5);
@@ -43,7 +43,7 @@ public class DesignUI extends JFrame {
 
         JLabel startLabel = new JLabel("Start");
         startLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        startLabel.setFont(new Font("¸¼Àº °íµñ Semilight", Font.PLAIN, 17));
+        startLabel.setFont(new Font("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Semilight", Font.PLAIN, 17));
         startLabel.setBounds(301, 9, 55, 15);
         inputPanel.add(startLabel);
         startField = new JTextField(5);
@@ -51,7 +51,7 @@ public class DesignUI extends JFrame {
         inputPanel.add(startField);
 
         JButton createGraphButton = new JButton("\uC9C0\uB3C4 \uC0DD\uC131");
-        createGraphButton.setFont(new Font("¸¼Àº °íµñ Semilight", Font.PLAIN, 14));
+        createGraphButton.setFont(new Font("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Semilight", Font.PLAIN, 14));
         createGraphButton.setBounds(817, 5, 99, 23);
         createGraphButton.addActionListener(new ActionListener() {
             @Override
@@ -65,7 +65,7 @@ public class DesignUI extends JFrame {
         getContentPane().add(inputPanel);
         
         JLabel title = new JLabel("MobileRobotController");
-        title.setFont(new Font("¸¼Àº °íµñ Semilight", Font.PLAIN, 15));
+        title.setFont(new Font("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Semilight", Font.PLAIN, 15));
         title.setBounds(7, 9, 158, 15);
         inputPanel.add(title);
         
@@ -75,7 +75,7 @@ public class DesignUI extends JFrame {
         
         JLabel spotLabel = new JLabel("Spot");
         spotLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        spotLabel.setFont(new Font("¸¼Àº °íµñ Semilight", Font.PLAIN, 17));
+        spotLabel.setFont(new Font("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Semilight", Font.PLAIN, 17));
         spotLabel.setBounds(430, 9, 55, 15);
         inputPanel.add(spotLabel);
         
@@ -85,7 +85,7 @@ public class DesignUI extends JFrame {
         
         JLabel colorLabel = new JLabel("Color");
         colorLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        colorLabel.setFont(new Font("¸¼Àº °íµñ Semilight", Font.PLAIN, 17));
+        colorLabel.setFont(new Font("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Semilight", Font.PLAIN, 17));
         colorLabel.setBounds(559, 9, 55, 15);
         inputPanel.add(colorLabel);
         
@@ -94,7 +94,7 @@ public class DesignUI extends JFrame {
         inputPanel.add(hazardField);
         
         JLabel hazardLabel = new JLabel("Hazard");
-        hazardLabel.setFont(new Font("¸¼Àº °íµñ Semilight", Font.PLAIN, 17));
+        hazardLabel.setFont(new Font("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Semilight", Font.PLAIN, 17));
         hazardLabel.setBounds(688, 9, 55, 15);
         inputPanel.add(hazardLabel);
 
@@ -112,7 +112,7 @@ public class DesignUI extends JFrame {
         voiceRecPanel.setBounds(0, 530, 931, 82);
         getContentPane().add(voiceRecPanel);
         
-        JButton jb = new JButton("À½¼º ³ìÀ½");
+        JButton jb = new JButton("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
         jb.addActionListener(new EventManager());
         voiceRecPanel.add(jb);
         
@@ -128,14 +128,14 @@ public class DesignUI extends JFrame {
         try {
             String inputText = rowField.getText();
             
-            // °ýÈ£¿Í °ø¹é Á¦°Å
+            // ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             String cleanedInput = inputText.replaceAll("[()]", "");
 
-            // ½°Ç¥¸¦ ±âÁØÀ¸·Î ¼ýÀÚ ºÐ¸®
+            // ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ð¸ï¿½
             String[] input = cleanedInput.split(" ");
 
             if (input.length != 2) {
-                JOptionPane.showMessageDialog(this, "MapÀ» (4 5)ÇüÅÂ·Î ÀÔ·ÂÇØÁÖ¼¼¿ä.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Mapï¿½ï¿½ (4 5)ï¿½ï¿½ï¿½Â·ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.", "Input Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -153,7 +153,7 @@ public class DesignUI extends JFrame {
 
             int nodeSize = Math.min(mapPanelWidth / cols, mapPanelHeight / rows);
 
-            // °¢ ¼¿¿¡ ´ëÇÑ ³ëµå »ý¼º
+            // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
                     Node node = new Node(j * nodeSize, i * nodeSize, nodeSize);
@@ -161,20 +161,20 @@ public class DesignUI extends JFrame {
                 }
             }
 
-            // °¢ ³ëµå¿¡ ´ëÇØ ¿À¸¥ÂÊ°ú ¾Æ·¡ÂÊÀ¸·Î ¿§Áö¸¦ ±×¸²
+            // ï¿½ï¿½ ï¿½ï¿½å¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ê°ï¿½ ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×¸ï¿½
             for (int i = 0; i < rows - 1; i++) {
                 for (int j = 0; j < cols - 1; j++) {
-                    edges.add(new Edge(nodes.get(i * cols + j), nodes.get(i * cols + j + 1))); // ¿À¸¥ÂÊÀ¸·Î ¿¬°á
-                    edges.add(new Edge(nodes.get(i * cols + j), nodes.get((i + 1) * cols + j))); // ¾Æ·¡ÂÊÀ¸·Î ¿¬°á
+                    edges.add(new Edge(nodes.get(i * cols + j), nodes.get(i * cols + j + 1))); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                    edges.add(new Edge(nodes.get(i * cols + j), nodes.get((i + 1) * cols + j))); // ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 }
             }
 
-            // °¡Àå ¿À¸¥ÂÊ ¿­¿¡ ´ëÇÑ ¾Æ·¡ÂÊ ¿§Áö Ãß°¡
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
             for (int i = 0; i < rows - 1; i++) {
                 edges.add(new Edge(nodes.get(i * cols + cols - 1), nodes.get((i + 1) * cols + cols - 1)));
             }
 
-            // °¡Àå ¾Æ·¡ Çà¿¡ ´ëÇÑ ¿À¸¥ÂÊ ¿§Áö Ãß°¡
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½Æ·ï¿½ ï¿½à¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
             for (int j = 0; j < cols - 1; j++) {
                 edges.add(new Edge(nodes.get((rows - 1) * cols + j), nodes.get((rows - 1) * cols + j + 1)));
             }

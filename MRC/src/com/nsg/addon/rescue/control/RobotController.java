@@ -151,28 +151,6 @@ public class RobotController {
 			return false;
 	}
 	
-	/**
-	 * 로봇이 잘못 움직인 경우, 올바른 위치로 되돌려 놓음. 
-	 * @param obj
-	 * 올바른 위치 
-	 */
-	public void recovery(Point obj) {
-		
-		//로봇이 원래 계획한 위치로 올바르게 갈 때까지 
-		while(!samePos(obj, robotPos)) {
-			//움직이지 않은 경우, 다시 로봇 이동 
-			if( samePos(prevPos, robotPos) ) {
-				control(); 
-			}
-			//2칸 움직인 경우, 뒤로 한칸 이동. 
-			else {
-				setNext(getBackwardPos());
-				rotate();
-				pretask();
-				control();
-			}
-		}
-	}
 	
 	/**
 	 * 

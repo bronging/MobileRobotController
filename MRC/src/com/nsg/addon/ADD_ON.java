@@ -26,7 +26,7 @@ public class ADD_ON {
 		return instance; 
 	}
 	
-	ADD_ON() {
+	private ADD_ON() {
 		modelingMap = new Map();
 		robotController = new RobotController();
 		numOfSearch = 0;
@@ -93,9 +93,8 @@ public class ADD_ON {
 	/**
 	 * 모든 탐색 지점을 순회하며 구조 작업을 진행 
 	 */
-	void rescue() {
+	public void rescue() {
 		// 탐색 지점마다 경로를 계산해서 search 호출 
-		
 		while(visited < numOfSearch) {
 			getTarget(); 		 // 탐색 지점 선택 
 			calcPath(); 		 // 탐색 지점까지의 경로 계산			
@@ -104,35 +103,37 @@ public class ADD_ON {
 			visited++;
 			
 							// 화면에 구조 한 거 표시 
+							// delay
 		}
+		return;
 	}
 	
 	/**
 	 * 특정 탐색 지점에 대해 탐색 작업 진행. 
 	 * 경로를 따라 로봇을 제어한다. 
 	 */
-	void search() {
-		while (!path.isEmpty()) {			
+	public void search() {
+		while (!path.isEmpty()) {	
 			robotController.setNext(path.get(0)); //계산된 경로를 넘겨줌
-			robotController.rotate(); 			  //올바른 방향으로 로봇 회전
 			
-			if(robotController.pretask()) { 	  //센서값 읽어서 지도 반영
-				robotController.avoid();		  //위험 지점 있으면 옆으로 피한 후 경로 재계
-				calcPath();
-			}
-			else{
-				robotController.control(); //로봇 움직인다. 
+			do {
 				
-				// 움직인 결과 화면에 띄우고 
-				
-				
-				//올바르게 움직이지 않았다면, 이를 보상 - 올바른 위치로 가도록 함. 
-				if(!robotController.validation()) {
-					robotController.recovery(path.get(0));
+				robotController.rotate(); 		  //올바른 방향으로 로봇 회전
+			
+				if(robotController.pretask()) {   //센서값 읽어서 지도 반영
+					
+					calcPath();
 				}
-				path.remove(0);
-			}
-			//test
+				else{
+					robotController.control();    //로봇 움직인다. 
+				
+					// 움직인 결과 화면에 띄우고 
+				}
+			}while(!robotController.validation());
+		
+			path.remove(0);
+			
+			//TODO test code -> 지우기 
 			printMap();
 		}
 	}
@@ -149,7 +150,7 @@ public class ADD_ON {
 	 * 로봇의 현재위치로 부터 탐색지점까지의 경로 계산 
 	 *  
 	 */
-	public void calcPath() {
+	public void calcPath2() {
 		path = new ArrayList<Point>();
 		
 		Point start, temp; 
@@ -157,11 +158,7 @@ public class ADD_ON {
 		Direction prior[];
 		
 		start = robotController.getRobotPos();
-		
-		//start = new Point(0,0);
-		//target = new Point(3, 2);
 
-		
 		prior = getDirPrior(start); 
 		
 		temp = start;
@@ -184,6 +181,53 @@ public class ADD_ON {
 		for(int i = 0; i < path.size(); i++)
 			System.out.println(path.get(i));
 
+	}
+	
+	
+	public void calcPath() {
+		Point v, adj, temp;
+		
+		Point start = robotController.getRobotPos();
+		Direction[] prior = getDirPrior(start);
+		
+		Queue<Point> q = new LinkedList<Point>();
+		Point[][] predecessor = new Point[modelingMap.getM()][modelingMap.getN()];
+		 
+		q.add(start);
+		
+		while(!q.isEmpty()) {
+			v = q.remove();
+			if(v == target) break; 
+			
+			for(int i = 0; i < 4; i++) {
+				adj = modelingMap.getForwardPos(v, prior[i]); //v의 인접 노드를 방문
+		
+				if((modelingMap.isInMap(adj))
+						&& (predecessor[adj.y][adj.x] == null)) {
+					if(modelingMap.getElem(adj) != Element.HAZARD) { //위험 지점이 아닌 경우 
+						predecessor[adj.y][adj.x] = v; // adj 직전 노드를 v로 기록
+						q.add(adj);
+					}
+					 
+					
+				}
+			}
+		}
+		
+		q.clear();
+		
+		path = new ArrayList<Point>();
+		
+		temp = target;
+		path.add(0, temp);
+		
+		while(temp != start) {
+			temp = predecessor[temp.y][temp.x];
+			path.add(0, temp);
+		}
+		
+		printPath();
+	
 	}
 	
 	/**
@@ -227,6 +271,44 @@ public class ADD_ON {
 		return prior;
 	}
 	
+	/**
+	 * 
+	 * @return modeling map의 행 크기 
+	 */
+	public int getM() {
+		return modelingMap.getM();
+	}
+	
+	/** 
+	 * 
+	 * @return modeling map의 열 크기 
+	 */
+	public int getN() {
+		return modelingMap.getN();
+	}
+	
+	
+	public Element[][] getModelingMap() {
+		return modelingMap.getMap();
+	}
+	
+	public Element[][] getRealMap() {
+		return RealMap.getInstance().getRealMap();
+	}
+	
+	public void  startVoiceRec() {
+		
+	}
+	
+	public void stopVoiceRec() {
+		
+	}
+	
+ 	public void printPath() {
+		System.out.println("PATH >>>>>");
+		for(int i = 0; i < path.size(); i++)
+			System.out.println(path.get(i));
+	}
 
 	//테스트용 map 객체 프린트 
 	public void printMap() {

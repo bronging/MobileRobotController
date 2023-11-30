@@ -19,12 +19,12 @@ public class VoiceRecMananger {
 
     VoiceRecEngine voiceRecEngine = new VoiceRecEngine();
 
-    // »ý¼ºÀÚ ¼öÁ¤
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public VoiceRecMananger() {
         this.format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, 16000, 16, 1, 2, 16000, false);
 
     }
-    /** ³ìÀ½ ½ÃÀÛ ¸Þ¼­µå */
+    /** ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½ */
     public void startRecording() {
         if (!isRecording) {
             isRecording = true;
@@ -32,13 +32,13 @@ public class VoiceRecMananger {
                 try {
                     line = AudioSystem.getTargetDataLine(format);
                     if (line == null) {
-                        System.err.println("Å¸°Ù µ¥ÀÌÅÍ ¶óÀÎÀ» »ç¿ëÇÒ ¼ö ¾ø½À´Ï´Ù.");
+                        System.err.println("Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
                         return;
                     }
                     line.open(format);
                     line.start();
 
-                    System.out.println("³ìÀ½À» ½ÃÀÛÇÕ´Ï´Ù.");
+                    System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.");
 
                     out = new ByteArrayOutputStream();
 
@@ -47,7 +47,7 @@ public class VoiceRecMananger {
                     while (isRecording) {
                         int bytesRead = line.read(buffer, 0, buffer.length);
                         out.write(buffer, 0, bytesRead);
-                        System.out.println("³ìÀ½Áß!");
+                        System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½!");
                     }
                 } catch (LineUnavailableException e) {
                     e.printStackTrace();
@@ -58,40 +58,40 @@ public class VoiceRecMananger {
         }
     }
 
-    /** ³ìÀ½ ÁßÁö ¸Þ¼­µå */
+    /** ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½ */
     public void stopRecording() {
         if (isRecording) {
             isRecording = false;
 
             if (line != null && line.isOpen()) {
-                System.out.println("³ìÀ½À» ÁßÁöÇÕ´Ï´Ù.");
+                System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.");
 
-                // ÀÚ¿ø ÇØÁ¦
+                // ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½
                 line.stop();
                 line.close();
 
-                // ½º·¹µå Á¾·á
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 recordingThread.interrupt();
 
                 saveToFile(out.toByteArray(), "C:\\\\Users\\\\parkn\\\\git\\\\MobileRobotController\\\\MRC\\\\src\\\\com\\\\nsg\\\\addon\\\\voice\\\\temp\\\\recordedAudio__.wav");
 
-                System.out.println("³ìÀ½ ÆÄÀÏÀÌ ÀúÀåµÇ¾ú½À´Ï´Ù.");
+                System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
             } else {
-                System.out.println("³ìÀ½ ÁßÀÌ ¾Æ´Õ´Ï´Ù.");
+                System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Õ´Ï´ï¿½.");
             }
         }
     }
 
     private void saveToFile(byte[] audioData, String outputFilePath) {
         try {
-            // ÆÄÀÏ·Î ÀúÀå
+            // ï¿½ï¿½ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½ï¿½
             File outputFile = new File(outputFilePath);
             AudioFormat audioFormat = line.getFormat();
             AudioInputStream audioInputStream = new AudioInputStream(
                     new ByteArrayInputStream(audioData), audioFormat, audioData.length);
             AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, outputFile);
 
-            // ÀÚ¿ø ÇØÁ¦
+            // ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½
             audioInputStream.close();
             
             voiceRecEngine.extractText(outputFilePath);
