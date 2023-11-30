@@ -5,6 +5,7 @@ import com.nsg.addon.rescue.modeling.Element;
 import com.nsg.addon.rescue.modeling.Map;
 import com.nsg.addon.rescue.modeling.RealMap;
 import com.nsg.addon.rescue.control.RobotController;
+import com.nsg.addon.voice.manager.VoiceRecMananger;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -16,7 +17,7 @@ public class ADD_ON {
 
 	private Map modelingMap; 
 	private RobotController robotController;
-	
+	private VoiceRecMananger voiceRecManager; 
 	private ArrayList<Point> path;  
 	private int numOfSearch;       // 전체 탐색 지점 개수 
 	private int visited;           // 방문한 탐색 지점의 개수 
@@ -29,6 +30,7 @@ public class ADD_ON {
 	private ADD_ON() {
 		modelingMap = new Map();
 		robotController = new RobotController();
+		voiceRecManager = new VoiceRecMananger();
 		numOfSearch = 0;
 		visited = 0; 
 	}
@@ -150,40 +152,6 @@ public class ADD_ON {
 	 * 로봇의 현재위치로 부터 탐색지점까지의 경로 계산 
 	 *  
 	 */
-	public void calcPath2() {
-		path = new ArrayList<Point>();
-		
-		Point start, temp; 
-		
-		Direction prior[];
-		
-		start = robotController.getRobotPos();
-
-		prior = getDirPrior(start); 
-		
-		temp = start;
-		
-		System.out.println(target);
-
-		int dr = target.y - start.y;
-		int dc = target.x - start.x;
-		
-		for(int r = 0; r < Math.abs(dr); r++) {
-			temp = modelingMap.getForwardPos(temp, prior[0]);
-			path.add(temp);
-		}
-		
-		for(int c = 0; c < Math.abs(dc); c++) {
-			temp = modelingMap.getForwardPos(temp, prior[1]);
-			path.add(temp);
-		}
-		
-		for(int i = 0; i < path.size(); i++)
-			System.out.println(path.get(i));
-
-	}
-	
-	
 	public void calcPath() {
 		Point v, adj, temp;
 		
@@ -296,12 +264,16 @@ public class ADD_ON {
 		return RealMap.getInstance().getRealMap();
 	}
 	
+	public Point getRobotPos() {
+		return robotController.getRobotPos();
+	}
+	
 	public void  startVoiceRec() {
-		
+		voiceRecManager.startRecording();
 	}
 	
 	public void stopVoiceRec() {
-		
+		voiceRecManager.stopRecording();
 	}
 	
  	public void printPath() {
