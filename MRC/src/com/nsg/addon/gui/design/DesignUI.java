@@ -113,7 +113,7 @@ public class DesignUI extends JFrame {
         getContentPane().add(voiceRecPanel);
         
         JButton jb = new JButton("���� ����");
-        jb.addActionListener(new EventManager());
+        //jb.addActionListener(new EventManager());
         voiceRecPanel.add(jb);
         
         JPanel aroundInformationPanel = new JPanel();

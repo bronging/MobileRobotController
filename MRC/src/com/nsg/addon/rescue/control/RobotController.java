@@ -28,6 +28,10 @@ public class RobotController {
 		return robotPos;
 	}
 	
+	public Point getPrevRbPos() {
+		return prevPos; 
+	}
+	
 	public void stopRobot() {
 		sim.stopRobot();
 	}

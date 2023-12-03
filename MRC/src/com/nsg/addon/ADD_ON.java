@@ -45,6 +45,7 @@ public class ADD_ON {
 	 */
 	public void initRobot(Point pos) {
 		robotController.initRobot(pos);
+		eventManager.updateRealMap(pos, Element.ROBOT);
 	}
 	
 	/**
@@ -55,7 +56,7 @@ public class ADD_ON {
 	 * @param n
 	 * 지도의 열 크기 
 	 */
-	void createMap(int m, int n) {
+	public void createMap(int m, int n) {
 		modelingMap.create(m, n);
 		RealMap.getInstance().createRealMap(m, n);
 	}
@@ -67,9 +68,9 @@ public class ADD_ON {
 	 * @param elem
 	 * 위험, 중요 지점 정보 
 	 */
-	void updateRealMap(Point pos, Element elem) {
+	public void updateRealMap(Point pos, Element elem) {
 		RealMap.getInstance().updateRealMapElem(pos, elem);
-		//eventManager.updateRealMap(pos, elem); // UI 업데이트 
+		eventManager.updateRealMap(pos, elem); // UI 업데이트 
 	}
 	
 	/**
@@ -81,7 +82,7 @@ public class ADD_ON {
 	 */
 	public void updateMap(Point pos, Element elem) {
 		modelingMap.updateMapElem(pos, elem);
-		//eventManager.updateModelingMap(pos, elem); // UI 업데이트 
+		eventManager.updateModelingMap(pos, elem); // UI 업데이트 
 	}
 	
 	/**
@@ -91,32 +92,28 @@ public class ADD_ON {
 	 * 탐색 지점의 위치
 	 */
 	public void updateSearchPos(Point pos) {
+		numOfSearch++;	
 		RealMap.getInstance().updateRealMapElem(pos, Element.SEARCHPOINT);
 		modelingMap.updateMapElem(pos, Element.SEARCHPOINT);
-		numOfSearch++;	
+		eventManager.updateRealMap(pos, Element.SEARCHPOINT);
 	}
 	
 	/**
 	 * 모든 탐색 지점을 순회하며 구조 작업을 진행 
 	 */
 	public void rescue() {
+		System.out.println("rescue!!!!!!!!!!" + numOfSearch);
 		// 탐색 지점마다 경로를 계산해서 search 호출 
 		while(visited < numOfSearch) {
+			System.out.println("while");
 			getTarget(); 		 // 탐색 지점 선택 
 			calcPath(); 		 // 탐색 지점까지의 경로 계산			
 			search(); 			 // 해당 탐색 지점까지 구조 작업
 			modelingMap.addVisited(target); // 탐색 완료 표시 
 			visited++;
 			
-			//eventManager.rescueDone(target);   // 화면에 구조 한 거 표시 
-			
-			try {
-				Thread.sleep(1000); // delay 
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}		
+			eventManager.rescueDone(target);   // 화면에 구조 한 거 표시 
 		}
-		return;
 	}
 	
 	/**
@@ -124,6 +121,7 @@ public class ADD_ON {
 	 * 경로를 따라 로봇을 제어한다. 
 	 */
 	public void search() {
+		System.out.println("serarcg");
 		
 		while (!path.isEmpty()) { // 탐색 지점까지 모든 경로를 방문할 때까지 	
 			robotController.setNext(path.get(0)); //계산된 경로를 넘겨줌
@@ -133,13 +131,21 @@ public class ADD_ON {
 				robotController.rotate(); 		  //올바른 방향으로 로봇 회전
 			
 				if(robotController.pretask()) {   //움직이기 전 센서값 읽어서 지도 반영
-					calcPath();					  //경로상 위험 지점 -> 경로 재계산 
+					calcPath();					  //경로상 위험 지점 -> 경로 재계산
+					break; 
 				}
 				else{
 					robotController.control();    //로봇 움직인다
+					System.out.println(robotController.getRobotPos());
 				
+					
 					// 움직인 결과 화면에 띄우고 
-					//eventManager.updateRobotPos(robotController.getRobotPos());
+					eventManager.updateRobotPos(robotController.getPrevRbPos(), robotController.getRobotPos());
+					try {
+						Thread.sleep(2000); // delay 
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}	
 				}
 			}while(!robotController.validation());//로봇이 올바르게 움직일 때까지 반복 
 		
@@ -154,6 +160,7 @@ public class ADD_ON {
 	 * 로봇의 현재 위치로부터 가장 가까운 탐색 지점을 찾아낸다. 
 	 */
 	public void getTarget() {
+		System.out.println("Target!");
 		target = modelingMap.getSearchPos(robotController.getRobotPos());
 	}
 	
@@ -163,6 +170,7 @@ public class ADD_ON {
 	 *  
 	 */
 	public void calcPath() {
+		System.out.println("alc!!AKWG:ALNEJtghkjawbn ");
 		Point v, adj, temp;
 		
 		Point start = robotController.getRobotPos();
@@ -186,8 +194,6 @@ public class ADD_ON {
 						predecessor[adj.y][adj.x] = v; // adj 직전 노드를 v로 기록
 						q.add(adj);
 					}
-					 
-					
 				}
 			}
 		}
@@ -262,7 +268,7 @@ public class ADD_ON {
 	
 	/** 
 	 * 
-s	 * @return modeling map의 열 크기 
+	 * @return modeling map의 열 크기 
 	 */
 	public int getN() {
 		return modelingMap.getN();
@@ -282,6 +288,7 @@ s	 * @return modeling map의 열 크기
 	}
 	
 	public void startVoiceRec() {
+		// 구조 작업 중단 
 		voiceRecManager.startRecording();
 	}
 	
@@ -291,7 +298,7 @@ s	 * @return modeling map의 열 크기
 	
 	
 	public void voiceRst(Point pos, Element elem) {
-		//eventManager.showVoiceRst(pos, elem);
+		eventManager.showVoiceRst(pos, elem);
 	}
 	
  	public void printPath() {

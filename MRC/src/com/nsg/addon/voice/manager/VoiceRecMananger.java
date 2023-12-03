@@ -23,6 +23,7 @@ public class VoiceRecMananger {
     private ByteArrayOutputStream out;
     private boolean isRecording = false;
     private Thread recordingThread;
+    private String result;
 
 
     VoiceRecEngine voiceRecEngine = new VoiceRecEngine();
@@ -32,6 +33,11 @@ public class VoiceRecMananger {
         this.format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, 16000, 16, 1, 2, 16000, false);
 
     }
+    
+    public String getResult() {
+    	return result;
+    }
+    
     /** 녹음 시작 메서드 */
     public void startRecording() {
         if (!isRecording) {
@@ -80,8 +86,6 @@ public class VoiceRecMananger {
 
                 // 스레드 종료
                 recordingThread.interrupt();
-
-                String result;
                 
                 result = saveToFile(out.toByteArray(), "recordedAudio__.wav");
                 extractText(result);
@@ -150,8 +154,12 @@ public class VoiceRecMananger {
         
         //ADD_ON.getInstance().updateRealMap(p,e);
         //ADD_ON.getInstance().VoiceRst(p,e);
-       // addon의 updateRealmap호출
-       // addon VoiceRst 호출
+        // addon의 updateRealmap호출
+        // addon VoiceRst 호출
+        p = new Point(3, 2);
+        //ADD_ON.getInstance().updateRealMap(p,e);
+        //ADD_ON.getInstance().VoiceRst(p,e);
+        
     }
     
     
