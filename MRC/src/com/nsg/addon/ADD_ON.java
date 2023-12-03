@@ -12,15 +12,18 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class ADD_ON {
+import javax.swing.SwingWorker;
+
+public class ADD_ON extends SwingWorker<Void, String> {
 	
 	private static ADD_ON instance = new ADD_ON();
 
 	private Map modelingMap; 
 	private RobotController robotController;
 	private VoiceRecMananger voiceRecManager; 
-	private EventManager eventManager; 
+	public EventManager eventManager; 
 	private ArrayList<Point> path;  
+	private ArrayList<Point> entirePath;
 	private int numOfSearch;       // 전체 탐색 지점 개수 
 	private int visited;           // 방문한 탐색 지점의 개수 
 	private Point target;          // 현재 탐색할 목표 탐색 지점 
@@ -34,8 +37,34 @@ public class ADD_ON {
 		robotController = new RobotController();
 		voiceRecManager = new VoiceRecMananger();
 		eventManager = new EventManager();
+		entirePath = new ArrayList<Point>();
 		numOfSearch = 0;
 		visited = 0; 
+	}
+	public int getVisited() {
+		return visited;
+	}
+	
+	public void setVisited(int a) {
+		visited = a;
+	}
+	public int getNumOfSearch() {
+		return numOfSearch;
+	}
+	
+	public ArrayList<Point> getEntirePath() {
+		return entirePath;
+	}
+	
+	public ArrayList<Point> getSearchPoints() {
+		return modelingMap.getAllSearch();
+	}
+	public ArrayList<Point> getPath() {
+		return path;
+	}
+	
+	public RobotController getRobotController() {
+		return robotController;
 	}
 	
 	/**
@@ -48,6 +77,9 @@ public class ADD_ON {
 		eventManager.updateRealMap(pos, Element.ROBOT);
 	}
 	
+	public void rotateRobot(Point pos, Direction d) {
+		eventManager.rotateRobot(pos, d);
+	}
 	/**
 	 * 지도 생성 
 	 * - realmap, modelingmap 함께 생성 
@@ -102,10 +134,8 @@ public class ADD_ON {
 	 * 모든 탐색 지점을 순회하며 구조 작업을 진행 
 	 */
 	public void rescue() {
-		System.out.println("rescue!!!!!!!!!!" + numOfSearch);
 		// 탐색 지점마다 경로를 계산해서 search 호출 
 		while(visited < numOfSearch) {
-			System.out.println("while");
 			getTarget(); 		 // 탐색 지점 선택 
 			calcPath(); 		 // 탐색 지점까지의 경로 계산			
 			search(); 			 // 해당 탐색 지점까지 구조 작업
@@ -121,9 +151,8 @@ public class ADD_ON {
 	 * 경로를 따라 로봇을 제어한다. 
 	 */
 	public void search() {
-		System.out.println("serarcg");
 		
-		while (!path.isEmpty()) { // 탐색 지점까지 모든 경로를 방문할 때까지 	
+		while (!path.isEmpty() && !isCancelled()) { // 탐색 지점까지 모든 경로를 방문할 때까지 	
 			robotController.setNext(path.get(0)); //계산된 경로를 넘겨줌
 			
 			do {
@@ -140,28 +169,31 @@ public class ADD_ON {
 				
 					
 					// 움직인 결과 화면에 띄우고 
-					eventManager.updateRobotPos(robotController.getPrevRbPos(), robotController.getRobotPos());
+					eventManager.updateRobotPos(robotController.getRobotPos());
+					
 					try {
-						Thread.sleep(2000); // delay 
+						Thread.sleep(500); // delay 
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}	
 				}
 			}while(!robotController.validation());//로봇이 올바르게 움직일 때까지 반복 
 		
-			path.remove(0);
+			
+			entirePath.add(path.remove(0));
 			
 			//TODO test code -> 지우기 
 			printMap();
 		}
 	}
 	
+
 	/**
 	 * 로봇의 현재 위치로부터 가장 가까운 탐색 지점을 찾아낸다. 
 	 */
-	public void getTarget() {
-		System.out.println("Target!");
+	public Point getTarget() {
 		target = modelingMap.getSearchPos(robotController.getRobotPos());
+		return target;
 	}
 	
 	
@@ -169,8 +201,7 @@ public class ADD_ON {
 	 * 로봇의 현재위치로 부터 탐색지점까지의 경로 계산 
 	 *  
 	 */
-	public void calcPath() {
-		System.out.println("alc!!AKWG:ALNEJtghkjawbn ");
+	public ArrayList<Point> calcPath() {
 		Point v, adj, temp;
 		
 		Point start = robotController.getRobotPos();
@@ -211,6 +242,8 @@ public class ADD_ON {
 		}
 		
 		printPath();
+		
+		return path;
 	
 	}
 	
@@ -274,7 +307,9 @@ public class ADD_ON {
 		return modelingMap.getN();
 	}
 	
-	
+	public Map getMap() {
+		return modelingMap;
+	}
 	public Element[][] getModelingMap() {
 		return modelingMap.getMap();
 	}
@@ -377,5 +412,13 @@ public class ADD_ON {
 			System.out.print("=");
 		
 		System.out.println();
+	}
+
+	
+	@Override
+	protected Void doInBackground() throws Exception {
+		rescue();
+		
+		return null;
 	}
 }

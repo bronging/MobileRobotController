@@ -17,15 +17,14 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import com.nsg.addon.ADD_ON;
-import com.nsg.addon.gui.design.View2.Node;
 import com.nsg.addon.rescue.modeling.Element;
 
 public class Map extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	int rows = 1;
-	int cols = 1; 
+	public int rows = 1;
+	public int cols = 1; 
 	
 	int mapPanelWidth = 550;
     int mapPanelHeight = 345;
@@ -101,9 +100,10 @@ public class Map extends JPanel {
 	    
 		JLabel l = new JLabel(nicon, SwingConstants.CENTER);
 		el.add(l); 
+		el.repaint();
 	}
 	
-	public void robotUpdate(Point prev, Point curr) {
+	public void robotUpdate(Point curr) {
 		
 		prevrobot.remove(prevrobot.p);
 		
@@ -116,8 +116,10 @@ public class Map extends JPanel {
 	    
 		JLabel l = new JLabel(nicon, SwingConstants.CENTER);
 		el.add(l); 
+		el.repaint();
 		
 		prevrobot = el;
+		
 		repaint();
 	}
 	
@@ -140,8 +142,8 @@ public class Map extends JPanel {
 	    
 		l = new JLabel(nicon, SwingConstants.CENTER);
 		el.add(l); 
-		
-		
+		el.repaint();
+	
 		
 	}
 	
@@ -244,6 +246,7 @@ public class Map extends JPanel {
 
 				
 				map.elemAdd(new Point(3, 3), Element.COLORBLOB);
+				map.elemAdd(new Point(1, 1), Element.NONE);
 
 				frame.setVisible(true);
 				

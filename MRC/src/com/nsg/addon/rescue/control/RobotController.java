@@ -28,6 +28,7 @@ public class RobotController {
 		return robotPos;
 	}
 	
+	
 	public Point getPrevRbPos() {
 		return prevPos; 
 	}
@@ -68,10 +69,13 @@ public class RobotController {
 			nextd = Direction.NORTH;
 		
 		robotDrct = sim.robotDirection();
-		
+		ADD_ON.getInstance().eventManager.rotateRobot(robotPos, robotDrct);
 		//움직여야 하는 방향까지 로봇을 회전시킴  
-		while(robotDrct != nextd)
+		while(robotDrct != nextd) {
 			robotDrct = sim.rotate(Rotate.CLOCK_90_ROTATION);
+			ADD_ON.getInstance().rotateRobot(robotPos, robotDrct);
+		}
+			
 	}
 	
 	/**

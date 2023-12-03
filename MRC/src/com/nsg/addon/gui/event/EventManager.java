@@ -2,6 +2,8 @@ package com.nsg.addon.gui.event;
 
 import com.nsg.addon.ADD_ON;
 import com.nsg.addon.gui.design.*;
+import com.nsg.addon.rescue.control.RobotController;
+import com.nsg.addon.rescue.modeling.Direction;
 import com.nsg.addon.rescue.modeling.Element;
 import com.nsg.addon.voice.manager.VoiceRecMananger;
 
@@ -16,10 +18,11 @@ import java.util.List;
 
 public class EventManager{
    
-	private View1 view1; 
+
 	private static Frame frame; 
 	
     private static boolean isButtonPressed = false;
+    private static boolean isStarted = false;
     
     private static VoiceRecMananger voiceRecManager;
     
@@ -29,49 +32,58 @@ public class EventManager{
         
         frame = new Frame();
         frame.setView1();
-        
+
     }
   
     public static void controlVoiceRec(MouseEvent e) {
-//        JLabel l  = (JLabel)e.getSource();
-//        if (isButtonPressed) {
-//            // 버튼이 이미 눌려있는 경우
-//            l.setText("음성녹음");
-//            
-//            // 녹음 중이면 녹음을 종료
-//            voiceRecManager.stopRecording();
-//        } 
-//        else {
-//            // 버튼이 눌리지 않은 경우
-//           l.setText("녹음 중..");
-//            
-//            // 녹음을 시작
-//            voiceRecManager.startRecording();
-//        }
-//        
-//        isButtonPressed = !isButtonPressed;
+    	JLabel l  = (JLabel)e.getSource();
+    	if(!isStarted) {
+    		frame.view2.start();
+    		isStarted = true;
+    		l.setText("음성녹음");
+    	}
     	
-    	
-    	SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-            	ADD_ON.getInstance().rescue();
+    	else {
+    		
+            if (isButtonPressed) {
+                // 버튼이 이미 눌려있는 경우
+                l.setText("음성녹음");
+                
+                // 녹음 중이면 녹음을 종료
+                voiceRecManager.stopRecording();
+                frame.view2.start();
+            } 
+            else {
+                // 버튼이 눌리지 않은 경우
+                l.setText("녹음 중..");
+
+                ADD_ON.getInstance().cancel(true); // 구조중단 
+                
+                // 녹음을 시작
+                voiceRecManager.startRecording();
+                
             }
-        });
+            
+            isButtonPressed = !isButtonPressed;
+    	}
+        
     }
     
-    
+    public void rotateRobot(Point p, Direction d) {
+    	frame.view2.rotateRobot(p, d);
+    }
     public void startView2(String[] inputstr){
 
+    	
     	// 문자열 배열을 Integer 배열로 변환
         Integer[] map_input = extractNumber(inputstr[0]);
         
-        ADD_ON.getInstance().createMap(map_input[0]+1, map_input[1]+1);
+        ADD_ON.getInstance().createMap(map_input[1]+1, map_input[0]+1);
         frame.setView2(map_input[0]+1, map_input[1]+1);
         frame.view2.setMapLabel(map_input[0], map_input[1]);
         
 
-        //로봇 초기 위치 설
+        //로봇 초기 위치 설정
     	Integer[] robot_input = extractNumber(inputstr[1]);   //(1 2) -> [1,2]    	
     	ADD_ON.getInstance().initRobot(new Point(robot_input[0], robot_input[1]));
     	
@@ -82,6 +94,7 @@ public class EventManager{
     	for(int i = 0; i < spotinput.length; i+=2) {
     		pos[i/2] = new Point(spotinput[i], spotinput[i+1]);
     		ADD_ON.getInstance().updateSearchPos(pos[i/2]);
+    		
     	}
     	
    
@@ -103,7 +116,7 @@ public class EventManager{
     		ADD_ON.getInstance().updateRealMap(pos[i/2], Element.HAZARD);
     	}
     	
-    	
+    		
     }
     
    
@@ -132,10 +145,10 @@ public class EventManager{
     }
     
     /**로봇 위치 업데이트 정보*/
-    public void updateRobotPos(Point prev, Point curr) {
+    public static void updateRobotPos(Point curr) {
     	System.out.println("robot update");
-    	System.out.println(prev + "and " + curr);
-        frame.view2.robotUpdate(prev, curr);
+    	//System.out.println(prev + "and " + curr);
+        frame.view2.robotUpdate(curr);
         frame.repaint();
  
     }
@@ -160,7 +173,7 @@ public class EventManager{
 
     
     /**구조 완료 업데이트 정보 */
-    public void rescueDone(Point p) {
+    public static void rescueDone(Point p) {
     	System.out.println(p);
         frame.view2.rescueUpdate(p);
         frame.repaint();
@@ -186,4 +199,5 @@ public class EventManager{
     	}
     }
 
+	
 }

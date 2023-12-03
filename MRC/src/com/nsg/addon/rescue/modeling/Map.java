@@ -9,7 +9,7 @@ public class Map {
 	protected Element[][] map;
 	protected ArrayList<Point> search_pts; // 탐색 지점
 	protected ArrayList<Point> visited;    // 방문한 탐색 지점
-	private int numOfSearch;  
+	private int numOfSearch, idx;  
 	
 	/**
 	 * 지도 생성 : 지도 크기 m X n 입력
@@ -21,6 +21,8 @@ public class Map {
 		search_pts = new ArrayList<>();
 		visited = new ArrayList<>();
 		map = new Element[m][n];
+		numOfSearch = 0;
+		idx = 0;
 		
 		for (int r = 0; r < m; r++)
 			for(int c = 0; c < n; c++)
@@ -66,7 +68,7 @@ public class Map {
 		/** TODO
 		 * 가장 가까운 탐색 지점을 찾아냄 
 		 */
-		return search_pts.remove(0);
+		return search_pts.get(idx++);
 	}
 	
 	/**
@@ -86,6 +88,10 @@ public class Map {
 		return (p.x >= 0 && p.x < n) && (p.y >= 0 && p.y < m); 
 	}
 	
+	
+	public ArrayList<Point> getAllSearch() {
+		return search_pts;
+	}
 	/**
 	 *  
 	 * @return 로봇의 현재 방향에 따른 전방 1칸 앞의 좌표

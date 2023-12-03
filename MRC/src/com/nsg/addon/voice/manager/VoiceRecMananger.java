@@ -23,7 +23,6 @@ public class VoiceRecMananger {
     private ByteArrayOutputStream out;
     private boolean isRecording = false;
     private Thread recordingThread;
-    private String result;
 
 
     VoiceRecEngine voiceRecEngine = new VoiceRecEngine();
@@ -33,11 +32,6 @@ public class VoiceRecMananger {
         this.format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, 16000, 16, 1, 2, 16000, false);
 
     }
-    
-    public String getResult() {
-    	return result;
-    }
-    
     /** 녹음 시작 메서드 */
     public void startRecording() {
         if (!isRecording) {
@@ -63,6 +57,8 @@ public class VoiceRecMananger {
                         out.write(buffer, 0, bytesRead);
                         System.out.println("녹음중!");
                     }
+                    
+                    
                 } catch (LineUnavailableException e) {
                     e.printStackTrace();
                 }
@@ -81,13 +77,21 @@ public class VoiceRecMananger {
                 System.out.println("녹음을 중지합니다.");
 
                 // 자원 해제
+                try {
+					out.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
                 line.stop();
                 line.close();
 
                 // 스레드 종료
                 recordingThread.interrupt();
+
+                String result;
                 
-                result = saveToFile(out.toByteArray(), "recordedAudio__.wav");
+                result = saveToFile(out.toByteArray(), "recorded.wav");
                 extractText(result);
 
                 System.out.println("녹음 파일이 저장되었습니다.");
@@ -121,45 +125,54 @@ public class VoiceRecMananger {
     /**음성인식 결과 추출*/
     public void extractText(String s) {
        
-       String extractText;
+        String extractText;
        
-       //인식된 결과만 추출
-       extractText = s.substring(98, s.length() - 3);
+        //인식된 결과만 추출
+        extractText = s.substring(98, s.length() - 3);
        
-       //공백 없애기
-        extractText.replaceAll("\\s", "");
+        //공백 없애기
+        String cleanedText = extractText.replaceAll("\\s", "");
         
+        System.out.println(cleanedText);
         int pointX, pointY;
-        Element e;
-        char pointx = s.charAt(4);
-        char pointy = s.charAt(7);
+        Element e = null;
+        Point p = new Point();
         
+        
+        char pointx = cleanedText.charAt(4);
+        char pointy = cleanedText.charAt(7);
+
         pointX = charToInt(pointx);
         pointY = charToInt(pointy);
         
-        if(extractText.substring(0,4)=="중요지점") {
+        p.x = pointX;
+        p.y = pointY;
+        
+        System.out.println(cleanedText.substring(0,4));
+        
+        if(cleanedText.substring(0,4).equals("중요지점")) {
            e = Element.COLORBLOB;
         }
-        else if(extractText.substring(0,4)=="위험지점") {
+        else if(cleanedText.substring(0,4).equals("위험지점")) {
            e = Element.HAZARD;
         }
+        else if(cleanedText.substring(0,4).equals("탐색지점")) {
+            e = Element.SEARCHPOINT;
+         }
         else {
            //잘못 인식
            System.out.println("다시 녹음하십시오");
         }
         
-        Point p;
-        //p.x = pointX;
-        //p.y = pointY;
+
+        System.out.println("element는" + e);
+        System.out.println(p.x);
+        System.out.println(p.y);
         
-        //ADD_ON.getInstance().updateRealMap(p,e);
-        //ADD_ON.getInstance().VoiceRst(p,e);
-        // addon의 updateRealmap호출
-        // addon VoiceRst 호출
-        p = new Point(3, 2);
-        //ADD_ON.getInstance().updateRealMap(p,e);
-        //ADD_ON.getInstance().VoiceRst(p,e);
-        
+        ADD_ON.getInstance().updateRealMap(p,e);
+        ADD_ON.getInstance().voiceRst(p,e);
+       // addon의 updateRealmap호출
+       // addon VoiceRst 호출
     }
     
     
@@ -190,7 +203,7 @@ public class VoiceRecMananger {
        case '구': pointX = 9;
           break;
        default:
-          System.out.println("다시 녹음하십시오.");
+          System.out.println("숫자 인식 실패");
             return -1;
         }
         return pointX;

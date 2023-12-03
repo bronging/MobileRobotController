@@ -65,6 +65,7 @@ public class VoiceRecEngine {
             con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             con.setRequestProperty("Authorization", accessKey);
 
+            
             try (DataOutputStream wr = new DataOutputStream(con.getOutputStream())) {
                 wr.write(gson.toJson(request).getBytes("UTF-8"));  // 요청에 담긴 데이터를 JSON으로 바꾸고, 인코딩하고 서버로 전송
                 wr.flush();  // 출력 버퍼 비우고, 데이터 전송

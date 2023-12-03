@@ -2,6 +2,7 @@ package com.nsg.addon;
 
 import java.awt.EventQueue;
 import java.awt.Point;
+import java.util.ArrayList;
 
 import javax.swing.SwingUtilities;
 
@@ -31,13 +32,16 @@ public class Main {
 //		ADD_ON.getInstance().printMap();
 //		
 //		ADD_ON.getInstance().rescue();
-		EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                ADD_ON.getInstance();
-            }
-        });
-		
+//		EventQueue.invokeLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                ADD_ON.getInstance();
+//                //ADD_ON.getInstance().show();
+//            	
+//            }
+//        });
+		ADD_ON.getInstance();
+        
 		
 		return; 
 	}
