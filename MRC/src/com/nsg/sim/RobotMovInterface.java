@@ -2,9 +2,6 @@ package com.nsg.sim;
 
 import java.awt.Point;
 import com.nsg.addon.rescue.modeling.Direction;
-import com.nsg.sim.Rotate;
-import com.nsg.sim.Movement;
-
 public interface RobotMovInterface {
 	
 	/**

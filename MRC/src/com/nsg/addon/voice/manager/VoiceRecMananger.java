@@ -3,10 +3,7 @@ package com.nsg.addon.voice.manager;
 import javax.sound.sampled.*;
 
 import java.awt.Point;
-import java.io.*;
 
-import com.google.gson.Gson;
-import com.google.gson.internal.LinkedTreeMap;
 import com.nsg.addon.ADD_ON;
 import com.nsg.addon.rescue.modeling.Element;
 import com.nsg.addon.voice.engine.*;
@@ -14,7 +11,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.ByteArrayInputStream;
-import com.nsg.addon.voice.engine.*;
 
 public class VoiceRecMananger implements VoiceRecognitionInterface{
    

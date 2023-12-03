@@ -1,7 +1,6 @@
 package com.nsg.addon.rescue.modeling;
 
 import java.awt.Point;
-import java.util.ArrayList;
 
 
 public class RealMap{

@@ -35,6 +35,7 @@ import com.nsg.addon.gui.design.View2;
 @SuppressWarnings("unused")
 public class Frame extends JFrame{
 	
+	private static final long serialVersionUID = 1L;
 	private View1 view1;
 	public View2 view2;
 	SpringLayout sl_panel = new SpringLayout();

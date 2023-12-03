@@ -9,7 +9,7 @@ public class Map implements ModelingInterface{
 	protected Element[][] map;
 	protected ArrayList<Point> search_pts; // 탐색 지점
 	protected ArrayList<Point> visited;    // 방문한 탐색 지점
-	private int numOfSearch, idx;  
+	private int idx;  
 	
 	@Override
 	public void create (int m, int n) {
@@ -19,7 +19,6 @@ public class Map implements ModelingInterface{
 		search_pts = new ArrayList<>();
 		visited = new ArrayList<>();
 		map = new Element[m][n];
-		numOfSearch = 0;
 		idx = 0;
 		
 		for (int r = 0; r < m; r++)

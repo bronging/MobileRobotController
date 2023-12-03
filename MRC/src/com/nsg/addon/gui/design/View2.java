@@ -1,45 +1,30 @@
 package com.nsg.addon.gui.design;
 
-import java.awt.EventQueue;
+
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
-import java.awt.Dialog.ModalExclusionType;
-import java.awt.Window.Type;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
-import javax.swing.border.EmptyBorder;
 
 import com.nsg.addon.ADD_ON;
-import com.nsg.addon.gui.event.EventManager;
-import com.nsg.addon.rescue.control.RobotController;
 import com.nsg.addon.rescue.modeling.Direction;
 import com.nsg.addon.rescue.modeling.Element;
 
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 
 import java.awt.GridLayout;
-import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import com.nsg.addon.gui.design.Map;
-import com.nsg.addon.gui.design.Map.Elem;
+
 
 public class View2 extends JPanel {
 	public Map mapPanel;
@@ -286,7 +271,7 @@ public class View2 extends JPanel {
 		panel.add(background2);
 		
 		
-		ImageIcon backicon2 = new ImageIcon(MapView.class.getResource("/resource/back1.jpg"));
+		ImageIcon backicon2 = new ImageIcon(ADD_ON.class.getResource("/resource/back1.jpg"));
 	    Image back2 = backicon2.getImage();
 	    Image updateBack2 = back2.getScaledInstance(750, 550, Image.SCALE_SMOOTH);
 	    ImageIcon updateBackIcon2 = new ImageIcon(updateBack2);
@@ -443,48 +428,7 @@ public class View2 extends JPanel {
     		repaint();
     	}
     	
-    	public void robotUpdate(Point curr) {
-    		
-    		prevrobot.remove(prevrobot.p);
-    		
-    		Elem el = iconPanel[curr.y][curr.x].getElem();
-    		icon = icons[0];
-    	
-    		Image img = icon.getImage();
-    	    Image updateImg = img.getScaledInstance(nodeSize, nodeSize, Image.SCALE_SMOOTH);
-    	    ImageIcon nicon = new ImageIcon(updateImg);
-    	    
-    		JLabel l = new JLabel(nicon, SwingConstants.CENTER);
-    		el.add(l); 
-    		el.repaint();
-    		
-    		prevrobot = el;
-    	}
-    	
-    	public void rescueUpdate(Point p) {
-    		Elem el = iconPanel[p.y][p.x].getElem();
-    		el.remove(el.p);
-    		
-    		icon = icons[1];
-    		Image img = icon.getImage();
-    	    Image updateImg = img.getScaledInstance(nodeSize, nodeSize, Image.SCALE_SMOOTH);
-    	    ImageIcon nicon = new ImageIcon(updateImg);
-    	    
-    		JLabel l = new JLabel(nicon, SwingConstants.CENTER);
-    		el.add(l); 
-    		
-    		icon = icons[0];
-    		img = icon.getImage();
-    	    updateImg = img.getScaledInstance(nodeSize, nodeSize, Image.SCALE_SMOOTH);
-    	    nicon = new ImageIcon(updateImg);
-    	    
-    		l = new JLabel(nicon, SwingConstants.CENTER);
-    		el.add(l); 
-    		el.repaint();
-    	
-    		
-    	}
-    	
+
     	public void elemInitAdd(Point p, Element e) {
     		Elem el = iconPanel[p.y][p.x].getElem();
     		

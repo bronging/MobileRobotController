@@ -1,30 +1,21 @@
 package com.nsg.addon.gui.design;
 
-import java.awt.EventQueue;
-import java.awt.Image;
-import java.awt.Dialog.ModalExclusionType;
-import java.awt.Window.Type;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
-import java.awt.GridLayout;
-import java.awt.CardLayout;
-import javax.swing.JLayeredPane;
 import javax.swing.JTextField;
 import java.awt.Color;
 import java.awt.SystemColor;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
-import javax.swing.JTextArea;
-import java.awt.FlowLayout;
+
 
 import com.nsg.addon.ADD_ON;
 import com.nsg.addon.gui.event.*;
@@ -58,7 +49,7 @@ public class View1 extends JPanel {
 		
 		setSize(750, 550);
 	    
-	    ImageIcon backicon1 = new ImageIcon(MapView.class.getResource("/resource/back2.jpg"));
+	    ImageIcon backicon1 = new ImageIcon(ADD_ON.class.getResource("/resource/back2.jpg"));
 	    Image back1 = backicon1.getImage();
 	    Image updateBack1 = back1.getScaledInstance(750, 550, Image.SCALE_SMOOTH);
 	    ImageIcon updateBackIcon1 = new ImageIcon(updateBack1);

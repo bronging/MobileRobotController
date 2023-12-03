@@ -2,15 +2,12 @@ package com.nsg.addon.gui.event;
 
 import com.nsg.addon.ADD_ON;
 import com.nsg.addon.gui.design.*;
-import com.nsg.addon.rescue.control.RobotController;
 import com.nsg.addon.rescue.modeling.Direction;
 import com.nsg.addon.rescue.modeling.Element;
 import com.nsg.addon.voice.manager.VoiceRecMananger;
 
 import javax.swing.*;
 
-import java.awt.EventQueue;
-import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.*;
 import java.util.ArrayList;
