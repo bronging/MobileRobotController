@@ -52,6 +52,7 @@ public class View2 extends JPanel {
     private JLabel voiceRecBtn;
     private JLabel voiceinfo;
     private Point prevRobot;
+    private Direction currDict;
 
 
 	private static final long serialVersionUID = 1L;
@@ -63,6 +64,7 @@ public class View2 extends JPanel {
 	public void rotateRobot(Point pos, Direction d) {
 		mapPanel.iconPanel[mapPanel.rows-1-pos.y][pos.x].getElem().p.setIcon(null);
 		ImageIcon icon = new ImageIcon();
+		currDict = d; 
 		
 		switch(d){
 		case SOUTH:
@@ -84,13 +86,29 @@ public class View2 extends JPanel {
 	    ImageIcon nicon = new ImageIcon(updateImg);	
 	    
 	    mapPanel.iconPanel[mapPanel.rows - 1 - pos.y][pos.x].getElem().p.setIcon(nicon);
-		
+		repaint();
 	}
 	
 	public void robotUpdate(Point curr) {
 		mapPanel.iconPanel[mapPanel.rows-1-prevRobot.y][prevRobot.x].getElem().p.setIcon(null);
 		
-		Image img = mapPanel.icons[0].getImage();
+		ImageIcon icon = new ImageIcon();
+		switch(currDict){
+		case SOUTH:
+			icon = mapPanel.robotIcons[0];
+			break;
+		case WEST:
+			icon = mapPanel.robotIcons[1];
+			break;
+		case NORTH:
+			icon = mapPanel.robotIcons[2];
+			break;
+		case EAST:
+			icon = mapPanel.robotIcons[3];
+			break;
+		}
+		
+		Image img = icon.getImage();
 	    Image updateImg = img.getScaledInstance(mapPanel.nodeSize, mapPanel.nodeSize, Image.SCALE_SMOOTH);
 	    ImageIcon nicon = new ImageIcon(updateImg);	
 	    
@@ -107,8 +125,11 @@ public class View2 extends JPanel {
 		mapPanel.repaint();
 		repaint();
 		
-		if(e == Element.ROBOT) 
+		if(e == Element.ROBOT) {
 			prevRobot = pos;
+			currDict = Direction.SOUTH;
+		}
+			
 	}
 	
 	public void colorElem(Point pos, Element e) {

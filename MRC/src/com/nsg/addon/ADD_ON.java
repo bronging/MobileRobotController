@@ -27,6 +27,7 @@ public class ADD_ON extends SwingWorker<Void, String> {
 	private int numOfSearch;       // 전체 탐색 지점 개수 
 	private int visited;           // 방문한 탐색 지점의 개수 
 	private Point target;          // 현재 탐색할 목표 탐색 지점 
+	public volatile static boolean pause = false;
 	
 	public static ADD_ON getInstance() {
 		return instance; 
@@ -133,7 +134,7 @@ public class ADD_ON extends SwingWorker<Void, String> {
 	/**
 	 * 모든 탐색 지점을 순회하며 구조 작업을 진행 
 	 */
-	public void rescue() {
+	public void rescue() throws Exception{
 		// 탐색 지점마다 경로를 계산해서 search 호출 
 		while(visited < numOfSearch) {
 			getTarget(); 		 // 탐색 지점 선택 
@@ -152,7 +153,15 @@ public class ADD_ON extends SwingWorker<Void, String> {
 	 */
 	public void search() {
 		
-		while (!path.isEmpty() && !isCancelled()) { // 탐색 지점까지 모든 경로를 방문할 때까지 	
+		while (!path.isEmpty()) { // 탐색 지점까지 모든 경로를 방문할 때까지 
+			while(pause) {
+				try {
+					Thread.sleep(500); // delay 
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			
 			robotController.setNext(path.get(0)); //계산된 경로를 넘겨줌
 			
 			do {
@@ -201,7 +210,7 @@ public class ADD_ON extends SwingWorker<Void, String> {
 	 * 로봇의 현재위치로 부터 탐색지점까지의 경로 계산 
 	 *  
 	 */
-	public ArrayList<Point> calcPath() {
+	public void calcPath() {
 		Point v, adj, temp;
 		
 		Point start = robotController.getRobotPos();
@@ -242,9 +251,6 @@ public class ADD_ON extends SwingWorker<Void, String> {
 		}
 		
 		printPath();
-		
-		return path;
-	
 	}
 	
 	
@@ -417,7 +423,12 @@ public class ADD_ON extends SwingWorker<Void, String> {
 	
 	@Override
 	protected Void doInBackground() throws Exception {
-		rescue();
+		try{
+			rescue();
+		}
+		catch (InterruptedException e){
+			
+		}
 		
 		return null;
 	}

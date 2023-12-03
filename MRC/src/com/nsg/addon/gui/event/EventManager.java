@@ -46,18 +46,21 @@ public class EventManager{
     	else {
     		
             if (isButtonPressed) {
-                // 버튼이 이미 눌려있는 경우
-                l.setText("음성녹음");
                 
                 // 녹음 중이면 녹음을 종료
                 voiceRecManager.stopRecording();
-                frame.view2.start();
+                
+                
+                l.setText("음성녹음");
+        		ADD_ON.pause = false;
+
+              
             } 
             else {
                 // 버튼이 눌리지 않은 경우
                 l.setText("녹음 중..");
 
-                ADD_ON.getInstance().cancel(true); // 구조중단 
+                ADD_ON.pause = true;
                 
                 // 녹음을 시작
                 voiceRecManager.startRecording();
