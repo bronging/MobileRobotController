@@ -51,13 +51,28 @@ public class Frame extends JFrame{
 	
 	public void setView1() {
 		view1 = new View1();
-		view1.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
+		SpringLayout sl_panel = new SpringLayout();
+		setLayout(sl_panel);
+		sl_panel.putConstraint(SpringLayout.NORTH, view1, 0, SpringLayout.NORTH, this);
+		sl_panel.putConstraint(SpringLayout.WEST, view1, 0, SpringLayout.WEST, this);
+		sl_panel.putConstraint(SpringLayout.SOUTH, view1, 0, SpringLayout.SOUTH, this);
+		sl_panel.putConstraint(SpringLayout.EAST, view1, 0, SpringLayout.EAST, this);
+		
 		setContentPane(view1);
 		setVisible(true);
 	}
 	
 	public void setView2(int m, int n) {
 		view2 = new View2(m, n);
+		
+		SpringLayout sl_panel = new SpringLayout();
+		setLayout(sl_panel);
+		sl_panel.putConstraint(SpringLayout.NORTH, view2, 0, SpringLayout.NORTH, this);
+		sl_panel.putConstraint(SpringLayout.WEST, view2, 0, SpringLayout.WEST, this);
+		sl_panel.putConstraint(SpringLayout.SOUTH, view2, 0, SpringLayout.SOUTH, this);
+		sl_panel.putConstraint(SpringLayout.EAST, view2, 0, SpringLayout.EAST, this);
+		
 		setContentPane(view2);
 		view2.setVisible(true);
 		setVisible(true);

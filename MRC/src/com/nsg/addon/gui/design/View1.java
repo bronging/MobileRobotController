@@ -164,7 +164,7 @@ public class View1 extends JPanel {
 	    	public void actionPerformed(ActionEvent e) {
 	    		String[] str = {mapTextField.getText(), RobotTextField.getText(), spotTextField.getText(), colorTextField.getText(), hazardTextField.getText()};
 	    		new EventManager().startView2(str);
-	    		
+	    		//ADD_ON.getInstance().rescue();
 	    	}
             
         });
