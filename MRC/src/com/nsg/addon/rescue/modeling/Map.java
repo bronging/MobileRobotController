@@ -3,7 +3,7 @@ package com.nsg.addon.rescue.modeling;
 import java.awt.Point;
 import java.util.ArrayList;
 
-public class Map {
+public class Map implements ModelingInterface{
 
 	protected int m, n; 
 	protected Element[][] map;
@@ -11,9 +11,7 @@ public class Map {
 	protected ArrayList<Point> visited;    // 방문한 탐색 지점
 	private int numOfSearch, idx;  
 	
-	/**
-	 * 지도 생성 : 지도 크기 m X n 입력
-	 */
+	@Override
 	public void create (int m, int n) {
 		this.m = m;
 		this.n = n;
@@ -29,12 +27,7 @@ public class Map {
 				map[r][c] = Element.NONE;
 	}
 	
-	/**
-	 * 지도 업데이트 함수 
-	 * @param x 업데이트할 x 좌표
-	 * @param y 업데이트할 y 좌표
-	 * @param elem 업데이트할 요소 - enum Element
-	 */
+	@Override
 	public void updateMapElem(Point pos, Element elem) {
 		int r = pos.y;
 		int c = pos.x;
@@ -49,21 +42,8 @@ public class Map {
 		}
 	}
 	
-	/**
-	 * 특정 위치의 요소 반환 
-	 * @param pos
-	 * @return
-	 * Element 
-	 */
-	public Element getElem(Point pos) {
-		return map[pos.y][pos.x];
-	}
 	
-	/**
-	 * 로봇의 현재 위치를 기준으로 가장 가까운 탐색 지점 반환 
-	 * @param p  로봇의 현재 위치 
-	 * @return 가장 가까운 탐색 지점 좌표 
-	 */
+	@Override
 	public Point getSearchPos(Point p) {
 		/** TODO
 		 * 가장 가까운 탐색 지점을 찾아냄 
@@ -71,10 +51,7 @@ public class Map {
 		return search_pts.get(idx++);
 	}
 	
-	/**
-	 * 탐색 지점 방문 표시 
-	 * @param p 방문한 탐색 지점 좌표 
-	 */
+	@Override
 	public void addVisited(Point p) {
 		visited.add(p);
 	}
@@ -89,13 +66,22 @@ public class Map {
 	}
 	
 	
+	/**
+	 * 특정 위치의 요소 반환 
+	 * @param pos
+	 * @return
+	 * Element 
+	 */
+	public Element getElem(Point pos) {
+		return map[pos.y][pos.x];
+	}
+	
+	
 	public ArrayList<Point> getAllSearch() {
 		return search_pts;
 	}
-	/**
-	 *  
-	 * @return 로봇의 현재 방향에 따른 전방 1칸 앞의 좌표
-	 */
+	
+	@Override
 	public Point getForwardPos(Point position, Direction direction) {
 		int c = position.x;
 		int r = position.y;

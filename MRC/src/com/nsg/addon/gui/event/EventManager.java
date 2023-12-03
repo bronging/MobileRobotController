@@ -16,7 +16,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventManager{
+public class EventManager implements UIInterface{
    
 
 	private static Frame frame; 
@@ -148,9 +148,9 @@ public class EventManager{
     }
     
     /**로봇 위치 업데이트 정보*/
-    public static void updateRobotPos(Point curr) {
+    @Override
+    public void updateRobotPos(Point curr) {
     	System.out.println("robot update");
-    	//System.out.println(prev + "and " + curr);
         frame.view2.robotUpdate(curr);
         frame.repaint();
  
@@ -158,6 +158,7 @@ public class EventManager{
     
     
     /**리얼맵 업데이트 정보*/
+    @Override
     public void updateRealMap(Point p, Element e) {
     	System.out.println("real map update");
     	System.out.println(p + "and " + e);
@@ -167,6 +168,7 @@ public class EventManager{
     
     
     /**모델링맵  업데이트 정보*/
+    @Override
     public void updateModelingMap(Point p, Element e) {
     	System.out.println("modeling map update");
     	System.out.println(p + "and " + e);
@@ -176,7 +178,8 @@ public class EventManager{
 
     
     /**구조 완료 업데이트 정보 */
-    public static void rescueDone(Point p) {
+    @Override
+    public void rescueDone(Point p) {
     	System.out.println(p);
         frame.view2.rescueUpdate(p);
         frame.repaint();
@@ -184,7 +187,8 @@ public class EventManager{
     
     
     /**음성인식 정보 업데이트*/
-    public static void showVoiceRst(Point p, Element e) {
+    @Override
+    public void showVoiceRst(Point p, Element e) {
        // extractText() 호출해 말한 결과 띄우기
     	
     	String s = "";

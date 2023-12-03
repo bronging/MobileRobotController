@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.io.ByteArrayInputStream;
 import com.nsg.addon.voice.engine.*;
 
-public class VoiceRecMananger {
+public class VoiceRecMananger implements VoiceRecognitionInterface{
    
     private AudioFormat format;
     private TargetDataLine line;
@@ -29,10 +29,16 @@ public class VoiceRecMananger {
 
     // 생성자 수정
     public VoiceRecMananger() {
-        this.format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, 16000, 16, 1, 2, 16000, false);
-
+    	init();
     }
+    
+    @Override
+    public void init() {
+        this.format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, 16000, 16, 1, 2, 16000, false);
+    }
+    
     /** 녹음 시작 메서드 */
+    @Override
     public void startRecording() {
         if (!isRecording) {
             isRecording = true;
@@ -69,6 +75,7 @@ public class VoiceRecMananger {
     }
 
     /** 녹음 중지 메서드 */
+    @Override
     public void stopRecording() {
         if (isRecording) {
             isRecording = false;

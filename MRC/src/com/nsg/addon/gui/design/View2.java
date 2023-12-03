@@ -62,6 +62,8 @@ public class View2 extends JPanel {
 	}
 	
 	public void rotateRobot(Point pos, Direction d) {
+		if(mapPanel.iconPanel[mapPanel.rows-1-pos.y][pos.x].getElem().elem == Element.SEARCHPOINT)
+			return;
 		mapPanel.iconPanel[mapPanel.rows-1-pos.y][pos.x].getElem().p.setIcon(null);
 		ImageIcon icon = new ImageIcon();
 		currDict = d; 
@@ -86,11 +88,14 @@ public class View2 extends JPanel {
 	    ImageIcon nicon = new ImageIcon(updateImg);	
 	    
 	    mapPanel.iconPanel[mapPanel.rows - 1 - pos.y][pos.x].getElem().p.setIcon(nicon);
+	    	
 		repaint();
 	}
 	
 	public void robotUpdate(Point curr) {
-		mapPanel.iconPanel[mapPanel.rows-1-prevRobot.y][prevRobot.x].getElem().p.setIcon(null);
+		if( mapPanel.iconPanel[mapPanel.rows-1-prevRobot.y][prevRobot.x].getElem().elem != Element.SEARCHPOINT)
+			mapPanel.iconPanel[mapPanel.rows-1-prevRobot.y][prevRobot.x].getElem().p.setIcon(null);
+		
 		
 		ImageIcon icon = new ImageIcon();
 		switch(currDict){
@@ -164,6 +169,7 @@ public class View2 extends JPanel {
 		Image img = icon.getImage();
 		Image updateImg = img.getScaledInstance(mapPanel.nodeSize, mapPanel.nodeSize, Image.SCALE_SMOOTH);
 	    ImageIcon nicon = new ImageIcon(updateImg);	
+	    mapPanel.iconPanel[mapPanel.rows - 1 - pos.y][pos.x].getElem().elem = Element.SEARCHPOINT;
 	    mapPanel.iconPanel[mapPanel.rows - 1 - pos.y][pos.x].getElem().p.setIcon(nicon);
 		mapPanel.repaint();
 	
@@ -245,8 +251,7 @@ public class View2 extends JPanel {
 		voiceRecBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				EventManager.controlVoiceRec(e);
-				EventManager.showVoiceRst(new Point(3, 4), Element.HAZARD);
+				ADD_ON.getInstance().eventManager.controlVoiceRec(e);
 			}
 		});
 		SpringLayout sl_infoPanel = new SpringLayout();
